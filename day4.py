@@ -68,13 +68,18 @@ for number_drawn in draw:
 
     # check scoreboards
     for s,s_board in enumerate(score_boards):
+        if s in blacklist:
+            continue
         rows = [sum(s_board[5*i:5*i+5]) for i in range(5)]
         cols = [sum(s_board[i::5]) for i in range(5)]
         if (5 in rows) or (5 in cols):
             blacklist.append(s)
+    
+    if len(blacklist) == len(lst_boards):
+        break
 
 last_board = score_boards[blacklist[-1]]
-unmarked = [lst_boards[s][i] for i,v in enumerate(last_board) if v == 0]
+unmarked = [lst_boards[blacklist[-1]][i] for i,v in enumerate(last_board) if v == 0]
 answer_pt2 = sum(unmarked)*int(number_drawn)
 print(f'part2: {answer_pt2}')
 
